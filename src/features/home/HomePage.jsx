@@ -1,4 +1,5 @@
 import SEO from '../../components/SEO.jsx'
+import seoConfig from '../../seo/seoConfig.js'
 import Hero from './sections/Hero/Hero.jsx'
 import { lazy, Suspense } from 'react'
 

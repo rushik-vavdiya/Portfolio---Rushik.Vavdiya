@@ -3,14 +3,14 @@
   xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
 >
   <url>
-    <loc>https://your-portfolio.vercel.app/</loc>
+    <loc>https://portfolio-rushik-vavdiya.vercel.app/</loc>
   </url>
 
   <url>
-    <loc>https://your-portfolio.vercel.app/projects</loc>
+    <loc>https://portfolio-rushik-vavdiya.vercel.app/projects</loc>
   </url>
 
   <url>
-    <loc>https://your-portfolio.vercel.app/contact</loc>
+    <loc>https://portfolio-rushik-vavdiya.vercel.app/contact</loc>
   </url>
 </urlset>
