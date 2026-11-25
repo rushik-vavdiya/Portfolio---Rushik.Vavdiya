@@ -1,0 +1,74 @@
+/* Aurora */
+@keyframes aurora {
+  from { transform: translate3d(-2%, -1%, 0) scale(1); }
+  to   { transform: translate3d(2%, 2%, 0) scale(1.08); }
+}
+
+/* Stars */
+@keyframes star-move {
+  0%   { transform: translate(var(--sx), var(--sy)); opacity: 0; }
+  15%  { opacity: .9; }
+  85%  { opacity: .8; }
+  100% { transform: translate(var(--ex), var(--ey)); opacity: 0; }
+}
+
+/* Orb */
+@keyframes orb-rotate {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes orb-pulse {
+  0%, 100% { transform: scale(.92); opacity: .75; }
+  50%      { transform: scale(1.08); opacity: 1; }
+}
+
+@keyframes orb-track {
+  from { transform: perspective(460px) rotateX(68deg) rotateZ(-20deg); }
+  to { transform: perspective(460px) rotateX(68deg) rotateZ(340deg); }
+}
+
+@keyframes orb-track-reverse {
+  from { transform: perspective(460px) rotateX(58deg) rotateZ(28deg); }
+  to { transform: perspective(460px) rotateX(58deg) rotateZ(-332deg); }
+}
+
+@keyframes orb-core {
+  0%, 100% { transform: scale(.86); opacity: .55; }
+  50% { transform: scale(1.12); opacity: .92; }
+}
+
+@keyframes orb-glint {
+  0%, 100% { transform: translate3d(-5%, 4%, 0) scale(.86); opacity: .24; }
+  50% { transform: translate3d(9%, -7%, 0) scale(1.12); opacity: .55; }
+}
+
+@keyframes orb-glass {
+  0%, 100% { transform: scale(.96); opacity: .38; }
+  50% { transform: scale(1.04); opacity: .68; }
+}
+
+/* Animation classes used in Hero.jsx */
+.animate-aurora     { animation: aurora 18s ease-in-out infinite alternate; }
+.animate-star-move  { animation: star-move 12s cubic-bezier(.45, .05, .85, .6) infinite both; }
+.animate-orb-rotate { animation: orb-rotate 14s linear infinite; }
+.animate-orb-pulse  { animation: orb-pulse 7s ease-in-out infinite; }
+.animate-orb-track { animation: orb-track 24s linear infinite; }
+.animate-orb-track-reverse { animation: orb-track-reverse 31s linear infinite; }
+.animate-orb-core { animation: orb-core 6.5s ease-in-out infinite; }
+.animate-orb-glint { animation: orb-glint 8s ease-in-out infinite; }
+.animate-orb-glass { animation: orb-glass 7.5s ease-in-out infinite; }
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-aurora,
+  .animate-star-move,
+  .animate-orb-rotate,
+  .animate-orb-pulse,
+  .animate-orb-track,
+  .animate-orb-track-reverse,
+  .animate-orb-core,
+  .animate-orb-glint,
+  .animate-orb-glass {
+    animation: none !important;
+  }
+}

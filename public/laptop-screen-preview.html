@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Website preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--p:#6A79D8;--pl:#6A79D8;--pm:#6A79D8;--pd:#000000;--v:#6A79D8;--mu:rgba(255,255,255,.2);--line:rgba(255,255,255,.2);--dwell:9s;color-scheme:dark}
+*{box-sizing:border-box;margin:0}
+body{background:#000;color:#fff;font:400 16px/1.6 "Instrument Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+h3,b,.num{font-family:"Bricolage Grotesque","Instrument Sans",system-ui,sans-serif}
+
+.show{position:relative;overflow:hidden;display:grid;place-items:center;min-height:100vh;padding:clamp(40px,6vw,96px) 20px}
+.show::before{content:"";position:absolute;left:50%;top:50%;width:min(1100px,130vw);height:700px;transform:translate(-50%,-50%);background:radial-gradient(ellipse,rgba(106,121,216,.2),transparent 65%);pointer-events:none}
+
+/* laptop */
+.float{position:relative;z-index:1;width:min(1000px,100%);animation:float 8s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-8px)}}
+.tilt{transform:perspective(1800px) rotateY(var(--ry,0deg)) rotateX(var(--rx,2deg));transition:transform .35s ease-out}
+.laptop{position:relative;width:100%}
+.lid{position:relative;padding:12px 12px 0;border-radius:22px 22px 0 0;border:1px solid rgba(255,255,255,.2);border-bottom:0;background:linear-gradient(150deg,#000000,#000000 55%,#000000)}
+.bezel{position:relative;padding:9px 9px 0;border-radius:12px 12px 0 0;background:#000000}
+.bezel::before{content:"";position:absolute;left:50%;top:0;width:86px;height:14px;transform:translateX(-50%);border-radius:0 0 9px 9px;background:#000000;z-index:3}
+.screen{--s:.7;position:relative;aspect-ratio:16/10;overflow:hidden;border-radius:6px 6px 0 0;background:#000000}
+.screen::after{content:"";position:absolute;inset:0;z-index:4;pointer-events:none;background:linear-gradient(115deg,rgba(255,255,255,.2),transparent 32%)}
+.base{position:relative;height:16px;margin:0 -4.5%;border-radius:0 0 26px 26px/0 0 16px 16px;background:linear-gradient(#000000,#000000 60%,#000000);box-shadow:inset 0 1px 0 rgba(255,255,255,.2)}
+.base::before{content:"";position:absolute;left:50%;top:0;width:16%;height:6px;transform:translateX(-50%);border-radius:0 0 10px 10px;background:#000000}
+.shadow{position:absolute;left:8%;right:8%;bottom:-34px;height:38px;border-radius:50%;background:radial-gradient(ellipse,rgba(106,121,216,.2),transparent 70%);filter:blur(14px)}
+
+/* virtual 960x600 screen */
+.vp{position:absolute;left:0;top:0;width:960px;height:600px;transform:scale(var(--s));transform-origin:0 0;font-size:14px}
+.scene{position:absolute;inset:0;opacity:0;transform:scale(1.03);transition:opacity .7s,transform .7s;pointer-events:none;background:#000000}
+.scene.on{opacity:1;transform:none}
+.chrome{height:36px;display:flex;align-items:center;gap:7px;padding:0 14px;background:#000000;border-bottom:1px solid var(--line)}
+.chrome i{width:10px;height:10px;border-radius:50%;background:var(--pd)}
+.chrome u{margin-left:14px;padding:3px 18px;border-radius:99px;background:rgba(255,255,255,.2);font-size:12px;text-decoration:none;color:var(--mu)}
+.view{position:absolute;inset:36px 0 0;overflow:hidden}
+.page{padding-top:64px}
+.scene.on .page{animation:scroll var(--dwell) linear both}
+@keyframes scroll{to{transform:translateY(var(--end))}}
+.nav{position:absolute;left:0;right:0;top:0;z-index:5;height:64px;display:flex;align-items:center;gap:28px;padding:0 36px;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav .logo{font-size:20px;letter-spacing:-.03em;margin-right:auto}.logo span{color:var(--pm)}
+.nav>span{color:var(--mu)}
+.pill{display:inline-block;padding:9px 20px;border-radius:99px;background:var(--p);font-style:normal;font-weight:600;font-size:13px;box-shadow:0 6px 24px rgba(106,121,216,.2)}
+.pill.o{background:none;border:1px solid rgba(255,255,255,.2);box-shadow:none}
+.pill.w{background:#fff;color:#000000;box-shadow:none}
+.hero{display:flex;align-items:center;justify-content:space-between;height:330px;padding:0 56px}
+.hero h3{max-width:440px;font-size:48px;line-height:1.04;letter-spacing:-.04em}
+.hero h3 em{font-style:normal;background:linear-gradient(90deg,var(--pl),var(--pm));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{margin:14px 0 24px;color:var(--mu);font-size:16px;max-width:380px}
+.row{display:flex;gap:12px}
+.art{position:relative;flex:none;width:270px;height:270px}
+.orb{position:absolute;inset:14px;border-radius:50%;background:radial-gradient(circle at 36% 30%,var(--pl),var(--p) 40%,var(--pd) 70%,transparent 74%);box-shadow:0 0 90px 14px rgba(106,121,216,.2);animation:spin 8s ease-in-out infinite alternate}
+.ring{position:absolute;inset:-6px;border-radius:50%;border:1px solid rgba(106,121,216,.2);animation:rot 14s linear infinite}
+.ring::after{content:"";position:absolute;left:50%;top:-4px;width:8px;height:8px;border-radius:50%;background:var(--pl);box-shadow:0 0 12px var(--pl)}
+@keyframes spin{to{transform:scale(1.07) rotate(16deg)}}
+@keyframes rot{to{transform:rotate(360deg)}}
+.chip{position:absolute;padding:8px 14px;border-radius:12px;background:rgba(0,0,0,.92);border:1px solid rgba(106,121,216,.2);font-size:12px;font-weight:600;box-shadow:0 10px 30px rgba(106,121,216,.2);animation:bob 3s ease-in-out infinite alternate}
+.chip.a{left:-34px;top:40px}.chip.b{right:-12px;bottom:34px;animation-delay:-1.5s}
+@keyframes bob{to{transform:translateY(-8px)}}
+.logos{display:flex;gap:18px;padding:0 56px;height:70px;align-items:center}
+.logos span{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;color:rgba(255,255,255,.2);font:600 16px "Bricolage Grotesque","Instrument Sans",system-ui,sans-serif;letter-spacing:-.02em}
+.logos svg{width:18px;height:18px;flex:none}
+.phone{position:absolute;left:78px;top:12px;z-index:1;width:122px;height:232px;filter:drop-shadow(0 22px 40px rgba(106,121,216,.2));animation:phone-bob 4s ease-in-out infinite alternate}
+@keyframes phone-bob{from{transform:rotate(6deg)}to{transform:rotate(6deg) translateY(-9px)}}
+.chip{z-index:2}
+.wh{display:flex;align-items:baseline;justify-content:space-between;padding:0 36px;height:56px}
+.wh b{font-size:24px;letter-spacing:-.03em}.wh span{color:var(--pm);font-weight:600}
+.work{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:0 36px 28px}
+.w{padding:10px;border-radius:16px;border:1px solid var(--line);background:rgba(255,255,255,.2)}
+.wi{aspect-ratio:240/150;margin-bottom:12px;border-radius:11px;overflow:hidden;background:#000000}
+.wi svg{display:block;width:100%;height:100%}
+.w b{font-size:16px}.w p{color:var(--mu);font-size:13px;line-height:1.4}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:0 36px 28px}
+.c{padding:22px;border-radius:16px;border:1px solid var(--line);background:rgba(255,255,255,.2)}
+.c .ic{display:grid;place-items:center;width:38px;height:38px;margin-bottom:14px;border-radius:11px;background:linear-gradient(135deg,var(--pl),var(--p));box-shadow:0 8px 22px rgba(106,121,216,.2)}
+.c .ic svg{width:20px;height:20px}
+.c b{font-size:17px}.c p{margin-top:4px;color:var(--mu)}
+.band{display:flex;align-items:center;justify-content:space-between;margin:0 36px 40px;padding:32px 38px;border-radius:20px;background:linear-gradient(110deg,var(--v),var(--p) 55%,var(--pl))}
+.band b{font-size:28px;letter-spacing:-.03em}
+
+/* store with product illustrations */
+.banner{margin:20px 36px;padding:36px 42px;height:190px;border-radius:20px;background:radial-gradient(60% 120% at 92% 0,rgba(106,121,216,.2),transparent 70%),linear-gradient(120deg,var(--pd),var(--v))}
+.banner b{display:block;max-width:380px;font-size:36px;line-height:1.06;letter-spacing:-.03em}.banner .pill{margin-top:16px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding:0 36px 36px}
+.prod{padding:10px;border-radius:16px;border:1px solid var(--line);background:rgba(255,255,255,.2)}
+.im{display:grid;place-items:center;height:150px;margin-bottom:12px;border-radius:11px;overflow:hidden;background:radial-gradient(75% 75% at 50% 35%,var(--t,rgba(106,121,216,.2)),rgba(0,0,0,.95))}
+.im svg{width:88%;height:88%;filter:drop-shadow(0 10px 14px rgba(0,0,0,.45))}
+.im img{width:100%;height:100%;object-fit:cover}
+.prod b{font-size:15px}.prod span{display:block;color:var(--pm);font-weight:600}
+.cart{position:relative;padding:7px 16px;border-radius:99px;background:rgba(255,255,255,.2);font-style:normal;font-weight:600}
+.cart .n2{position:absolute;left:16px;opacity:0}
+.scene.on .cart .n1{animation:out 9s both}.scene.on .cart .n2{animation:in 9s both}
+.scene.on .cart{animation:pop 9s both}
+@keyframes out{0%,62%{opacity:1}63%,100%{opacity:0}}
+@keyframes in{0%,62%{opacity:0}63%,100%{opacity:1}}
+@keyframes pop{0%,62%{background:rgba(255,255,255,.2)}64%{background:var(--p);transform:scale(1.08)}70%,100%{background:rgba(255,255,255,.2);transform:none}}
+.cur{position:absolute;left:0;top:0;z-index:6;width:22px;height:22px;filter:drop-shadow(0 4px 8px rgba(0,0,0,.6));opacity:0}
+.scene.on .cur{animation:mouse 9s ease-in-out both}
+@keyframes mouse{0%{opacity:0;transform:translate(560px,470px)}8%{opacity:1}30%{transform:translate(600px,380px)}58%{transform:translate(868px,34px)}61%{transform:translate(868px,34px) scale(.82)}66%{transform:translate(868px,34px)}88%{opacity:1}100%{opacity:0;transform:translate(900px,200px)}}
+.toast{position:absolute;right:26px;top:80px;z-index:6;padding:12px 20px;border-radius:14px;background:rgba(0,0,0,.95);border:1px solid rgba(106,121,216,.2);box-shadow:0 12px 40px rgba(106,121,216,.2);font-weight:600;opacity:0}
+.scene.on .toast{animation:toast 9s both}
+@keyframes toast{0%,63%{opacity:0;transform:translateY(-12px)}68%,86%{opacity:1;transform:none}92%,100%{opacity:0}}
+
+/* live dashboard (drawn by script, never stops) */
+.dash{display:grid;grid-template-columns:64px 1fr;height:100%}
+.side{display:flex;flex-direction:column;align-items:center;gap:16px;padding-top:18px;border-right:1px solid var(--line);background:#000000}
+.side i{width:26px;height:26px;border-radius:8px;background:rgba(255,255,255,.2)}.side i:first-child{background:linear-gradient(135deg,var(--pl),var(--p));box-shadow:0 0 18px rgba(106,121,216,.2)}
+.main{display:grid;grid-template-rows:36px 88px 240px 1fr;gap:12px;padding:16px 18px;min-height:0}
+.top{display:flex;align-items:center;gap:12px}.top b{font-size:20px;letter-spacing:-.03em;margin-right:auto}
+.top em,.tag{font-style:normal;display:inline-flex;align-items:center;gap:7px;padding:4px 14px;border-radius:99px;background:rgba(255,255,255,.2);color:var(--mu);font-size:12px}
+.tag{color:#FFFFFF}
+.tag::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--pl);animation:ping 1.8s infinite}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(106,121,216,.2)}100%{box-shadow:0 0 0 9px rgba(106,121,216,.2)}}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.kpi,.box{border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.2);padding:14px 16px;min-width:0}
+.kpi small,.box small{display:block;color:var(--mu);font-size:12px}
+.num{font-size:28px;font-weight:600;letter-spacing:-.03em;line-height:1.2}
+.kpi em{font-style:normal;margin-left:8px;padding:2px 8px;border-radius:99px;background:rgba(106,121,216,.2);color:#6A79D8;font-size:12px}
+.charts{display:grid;grid-template-columns:1.7fr 1fr;gap:12px;min-height:0}
+.box{display:flex;flex-direction:column;min-height:0}
+.box svg{flex:1;min-height:0;width:100%;margin-top:8px;overflow:visible}
+.donut{display:flex;align-items:center;gap:18px;flex:1;margin-top:6px}
+.donut svg{flex:none;width:130px;height:130px;margin:0;transform:rotate(-90deg)}
+.lg{display:grid;gap:10px;font-size:13px;color:var(--mu)}.lg span::before{content:"";display:inline-block;width:9px;height:9px;margin-right:8px;border-radius:3px;background:var(--k)}
+.bars{display:flex;align-items:flex-end;gap:10px;height:72px;margin-top:10px}
+.bars i{flex:1;border-radius:6px 6px 2px 2px;background:linear-gradient(var(--pm),var(--v))}
+.bars i:last-child{background:linear-gradient(var(--pl),var(--p));box-shadow:0 0 16px rgba(106,121,216,.2)}
+.dot{animation:beat 1.6s ease-in-out infinite}
+@keyframes beat{50%{r:9;opacity:.75}}
+
+@media(prefers-reduced-motion:reduce){.float,.scene *,.tag::before{animation:none!important}.scene,.tilt{transition:none}}
+html,body{width:100%;height:100%;overflow:hidden}
+body{min-width:0;min-height:0}
+.show{display:block;width:100%;height:100%;min-height:0;padding:0}
+.show::before{width:100%;height:100%;opacity:.65}
+.float,.tilt,.laptop,.lid,.bezel{position:absolute;inset:0;width:100%;height:100%;margin:0;padding:0;border:0;border-radius:0;transform:none!important;transition:none;animation:none;background:transparent}
+.bezel::before,.base,.shadow{display:none}
+.screen{--s:1;position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto;border-radius:0;background:#000000}
+.screen::after{display:none}.vp{left:50%;transform:translateX(-50%) scale(var(--s));transform-origin:top center}
+</style>
+</head>
+<body>
+
+<!-- shared gradients for the product illustrations -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <linearGradient id="gp" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6A79D8"/><stop offset=".5" stop-color="#6A79D8"/><stop offset="1" stop-color="#6A79D8"/></linearGradient>
+  <linearGradient id="gd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6A79D8"/><stop offset="1" stop-color="#000000"/></linearGradient>
+  <linearGradient id="gw" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#FFFFFF"/></linearGradient>
+  <linearGradient id="ga" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6A79D8" stop-opacity=".5"/><stop offset="1" stop-color="#6A79D8" stop-opacity="0"/></linearGradient>
+  <radialGradient id="gl"><stop offset="0" stop-color="#fff" stop-opacity=".6"/><stop offset="1" stop-color="#6A79D8" stop-opacity="0"/></radialGradient>
+</defs></svg>
+
+<main class="show" id="show">
+  <div class="float"><div class="tilt" id="tilt">
+    <div class="laptop" role="region" aria-label="Live website previews">
+      <div class="lid"><div class="bezel"><div class="screen" id="screen"><div class="vp">
+
+        <!-- 1. agency website -->
+        <section class="scene on" aria-label="Website preview">
+          <div class="chrome"><i></i><i></i><i></i><u>studio.example.com</u></div>
+          <div class="view">
+            <header class="nav"><b class="logo">Astrix<span>Code</span></b><span>Work</span><span>Services</span><span>About</span><em class="pill">Book a call</em></header>
+            <div class="page" style="--end:-560px">
+              <div class="hero">
+                <div><h3>Automate the busywork. <em>Grow the business.</em></h3><p>AI, web and design, built together to bring you more customers.</p><div class="row"><em class="pill">Get started</em><em class="pill o">View work</em></div></div>
+                <div class="art"><div class="orb"></div><div class="ring"></div><svg class="phone" viewBox="0 0 100 190" aria-hidden="true"><rect x="2" y="2" width="96" height="186" rx="16" fill="#000000" stroke="rgba(255,255,255,.2)" stroke-width="2"/><rect x="36" y="8" width="28" height="5" rx="2.5" fill="#000000"/><rect x="10" y="22" width="80" height="34" rx="9" fill="url(#gp)"/><rect x="16" y="30" width="34" height="5" rx="2.5" fill="#fff" opacity=".9"/><rect x="16" y="40" width="52" height="4" rx="2" fill="#fff" opacity=".5"/><rect x="10" y="64" width="38" height="38" rx="9" fill="rgba(255,255,255,.2)"/><rect x="52" y="64" width="38" height="38" rx="9" fill="rgba(255,255,255,.2)"/><path d="M15 94l7-9 7 5 8-12" stroke="#6A79D8" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="71" cy="83" r="11" fill="none" stroke="#6A79D8" stroke-width="5"/><path d="M71 72a11 11 0 0 1 11 11" stroke="#6A79D8" stroke-width="5" fill="none"/><rect x="10" y="110" width="80" height="12" rx="6" fill="rgba(255,255,255,.2)"/><rect x="10" y="128" width="80" height="12" rx="6" fill="rgba(255,255,255,.2)"/><rect x="10" y="146" width="56" height="12" rx="6" fill="rgba(255,255,255,.2)"/><rect x="20" y="168" width="60" height="9" rx="4.5" fill="url(#gp)" opacity=".85"/></svg><span class="chip a">Call answered</span><span class="chip b">Lead qualified</span></div>
+              </div>
+              <div class="logos"><span><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="7" fill="none" stroke="currentColor" stroke-width="3"/></svg>Orbit</span><span><svg viewBox="0 0 20 20"><path d="M10 2l8 8-8 8-8-8z" fill="currentColor"/></svg>Northwind</span><span><svg viewBox="0 0 20 20"><path d="M2 12h4l3-8 3 12 2-4h4" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Pulse</span><span><svg viewBox="0 0 20 20"><path d="M2 3h6l2 8 2-8h6l-8 15z" fill="currentColor"/></svg>Vertex</span><span><svg viewBox="0 0 20 20"><path d="M10 2l7 4v8l-7 4-7-4V6z" fill="currentColor"/></svg>Lumo</span></div>
+              <div class="wh"><b>Selected work</b><span>See all projects</span></div>
+              <div class="work">
+                <div class="w"><div class="wi"><svg viewBox="0 0 240 150" role="img" aria-label="Analytics platform"><rect width="240" height="150" fill="#000000"/><rect width="28" height="150" fill="#000000"/><rect x="8" y="14" width="12" height="12" rx="4" fill="url(#gp)"/><rect x="8" y="36" width="12" height="12" rx="4" fill="#000000"/><rect x="8" y="56" width="12" height="12" rx="4" fill="#000000"/><rect x="40" y="14" width="60" height="32" rx="6" fill="#000000"/><rect x="108" y="14" width="60" height="32" rx="6" fill="#000000"/><rect x="176" y="14" width="56" height="32" rx="6" fill="#000000"/><rect x="47" y="21" width="24" height="4" rx="2" fill="#6A79D8"/><rect x="47" y="31" width="38" height="8" rx="2" fill="#fff" opacity=".85"/><rect x="115" y="21" width="24" height="4" rx="2" fill="#6A79D8"/><rect x="115" y="31" width="30" height="8" rx="2" fill="#fff" opacity=".85"/><rect x="183" y="21" width="24" height="4" rx="2" fill="#6A79D8"/><rect x="183" y="31" width="34" height="8" rx="2" fill="#fff" opacity=".85"/><path d="M40 124C62 116 74 98 94 102S130 78 152 82S198 60 232 54V140H40Z" fill="url(#ga)"/><path d="M40 124C62 116 74 98 94 102S130 78 152 82S198 60 232 54" stroke="#6A79D8" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="232" cy="54" r="4" fill="#fff" stroke="#6A79D8" stroke-width="2"/></svg></div><b>Analytics platform</b><p>Dashboard, data engineering</p></div>
+                <div class="w"><div class="wi"><svg viewBox="0 0 240 150" role="img" aria-label="Online store"><rect width="240" height="150" fill="#000000"/><rect x="10" y="10" width="220" height="48" rx="8" fill="url(#gd)"/><rect x="20" y="22" width="84" height="8" rx="4" fill="#fff"/><rect x="20" y="36" width="44" height="12" rx="6" fill="#fff" opacity=".9"/><rect x="10" y="68" width="50" height="72" rx="8" fill="#000000"/><rect x="66" y="68" width="50" height="72" rx="8" fill="#000000"/><rect x="122" y="68" width="50" height="72" rx="8" fill="#000000"/><rect x="178" y="68" width="52" height="72" rx="8" fill="#000000"/><path d="M26 80h18l4 14H22z" fill="url(#gw)"/><rect x="34" y="94" width="2" height="10" fill="#6A79D8"/><path d="M86 76h8c0 6 8 8 8 18 0 8-6 12-12 12s-12-4-12-12c0-10 8-12 8-18z" fill="url(#gp)"/><path d="M134 82h20v14c0 6-4 9-10 9s-10-3-10-9z" fill="url(#gp)"/><rect x="196" y="88" width="18" height="18" rx="3" fill="url(#gd)"/><path d="M205 86c-3-3-1-7 0-9 1 2 3 6 0 9z" fill="url(#gp)"/><rect x="16" y="118" width="30" height="4" rx="2" fill="#fff" opacity=".75"/><rect x="16" y="126" width="18" height="3" rx="1.5" fill="#6A79D8"/><rect x="72" y="118" width="30" height="4" rx="2" fill="#fff" opacity=".75"/><rect x="72" y="126" width="18" height="3" rx="1.5" fill="#6A79D8"/><rect x="128" y="118" width="30" height="4" rx="2" fill="#fff" opacity=".75"/><rect x="128" y="126" width="18" height="3" rx="1.5" fill="#6A79D8"/><rect x="184" y="118" width="30" height="4" rx="2" fill="#fff" opacity=".75"/><rect x="184" y="126" width="18" height="3" rx="1.5" fill="#6A79D8"/></svg></div><b>Online store</b><p>Shopify, UI/UX design</p></div>
+                <div class="w"><div class="wi"><svg viewBox="0 0 240 150" role="img" aria-label="Community app"><rect width="240" height="150" fill="#000000"/><circle cx="120" cy="75" r="72" fill="url(#gl)" opacity=".55"/><rect x="34" y="16" width="72" height="150" rx="12" fill="#000000" stroke="rgba(255,255,255,.2)" stroke-width="2"/><rect x="44" y="30" width="52" height="14" rx="7" fill="url(#gp)"/><rect x="44" y="50" width="42" height="12" rx="6" fill="#000000"/><rect x="56" y="68" width="40" height="12" rx="6" fill="url(#gp)" opacity=".8"/><rect x="44" y="86" width="48" height="12" rx="6" fill="#000000"/><rect x="44" y="106" width="52" height="26" rx="8" fill="#000000"/><circle cx="58" cy="119" r="6" fill="#6A79D8"/><rect x="68" y="114" width="20" height="4" rx="2" fill="#fff" opacity=".7"/><rect x="68" y="122" width="14" height="3" rx="1.5" fill="#6A79D8"/><rect x="134" y="28" width="72" height="150" rx="12" fill="#000000" stroke="rgba(255,255,255,.2)" stroke-width="2"/><rect x="144" y="42" width="52" height="30" rx="8" fill="url(#gd)"/><rect x="144" y="80" width="24" height="24" rx="7" fill="#000000"/><rect x="172" y="80" width="24" height="24" rx="7" fill="#000000"/><circle cx="156" cy="92" r="5" fill="#6A79D8"/><circle cx="184" cy="92" r="5" fill="#6A79D8"/><rect x="144" y="112" width="52" height="10" rx="5" fill="#000000"/><rect x="144" y="128" width="40" height="10" rx="5" fill="#000000"/></svg></div><b>Community app</b><p>Web app, API development</p></div>
+              </div>
+              <div class="cards">
+                <div class="c"><i class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3" fill="none" stroke="#fff" stroke-width="2"/><path d="M3 9.5h18" stroke="#fff" stroke-width="2"/></svg></i><b>Web design</b><p>Fast, responsive sites.</p></div>
+                <div class="c"><i class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.2 6.3L21 12l-6.8 2.7L12 21l-2.2-6.3L3 12l6.8-2.7z" fill="#fff"/></svg></i><b>AI automation</b><p>Leads handled for you.</p></div>
+                <div class="c"><i class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1 12H6z" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"/><path d="M9 8V6a3 3 0 0 1 6 0v2" fill="none" stroke="#fff" stroke-width="2"/></svg></i><b>Online stores</b><p>Built to convert.</p></div>
+              </div>
+              <div class="band"><b>Ready to grow?</b><em class="pill w">Let's talk</em></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. online store: every product has a drawn product image -->
+        <section class="scene" aria-label="Online store preview">
+          <div class="chrome"><i></i><i></i><i></i><u>shop.example.com</u></div>
+          <div class="view">
+            <header class="nav"><b class="logo">Astrix<span>Code</span></b><span>New</span><span>Decor</span><span>Sale</span><em class="cart"><span class="n1">Cart (1)</span><span class="n2">Cart (2)</span></em></header>
+            <div class="page" style="--end:-236px">
+              <div class="banner"><b>Autumn collection, up to 30% off</b><em class="pill w">Shop now</em></div>
+              <div class="grid">
+                <div class="prod"><div class="im"><svg viewBox="0 0 120 100" role="img" aria-label="Aura lamp"><circle cx="60" cy="38" r="36" fill="url(#gl)"/><path d="M40 20h40l10 32H30z" fill="url(#gw)"/><path d="M40 20h40l10 32H30z" fill="url(#gp)" opacity=".4"/><rect x="58" y="52" width="4" height="26" rx="2" fill="url(#gd)"/><ellipse cx="60" cy="82" rx="18" ry="5" fill="url(#gd)"/></svg></div><b>Aura lamp</b><span>$49</span></div>
+                <div class="prod"><div class="im" style="--t:rgba(255,255,255,.2)"><svg viewBox="0 0 120 100" role="img" aria-label="Haze vase"><path d="M60 22C58 12 52 6 46 3M60 22c2-9 8-14 14-17" stroke="url(#gw)" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M50 22h20c0 12 16 20 16 40 0 18-14 28-26 28S34 80 34 62c0-20 16-28 16-40z" fill="url(#gp)"/><ellipse cx="60" cy="22" rx="10" ry="3" fill="url(#gd)"/><path d="M44 58c-2 14 4 22 10 26" stroke="#fff" stroke-opacity=".5" stroke-width="3" fill="none" stroke-linecap="round"/></svg></div><b>Haze vase</b><span>$32</span></div>
+                <div class="prod"><div class="im" style="--t:rgba(106,121,216,.2)"><svg viewBox="0 0 120 100" role="img" aria-label="Dusk throw"><rect x="22" y="58" width="76" height="18" rx="5" fill="url(#gd)"/><rect x="26" y="43" width="68" height="18" rx="5" fill="url(#gp)"/><rect x="30" y="28" width="60" height="18" rx="5" fill="url(#gw)"/><path d="M34 37h52M30 52h60M26 67h68" stroke="#6A79D8" stroke-opacity=".55" stroke-width="2" stroke-dasharray="3 5"/></svg></div><b>Dusk throw</b><span>$58</span></div>
+                <div class="prod"><div class="im" style="--t:rgba(106,121,216,.2)"><svg viewBox="0 0 120 100" role="img" aria-label="Orbit clock"><circle cx="60" cy="50" r="38" fill="url(#gd)" stroke="url(#gp)" stroke-width="4"/><path d="M60 19v5M60 76v5M29 50h5M86 50h5" stroke="#fff" stroke-opacity=".75" stroke-width="2" stroke-linecap="round"/><path d="M60 50V32M60 50l13 8" stroke="#fff" stroke-width="3" stroke-linecap="round"/><circle cx="60" cy="50" r="3.5" fill="#6A79D8"/></svg></div><b>Orbit clock</b><span>$41</span></div>
+                <div class="prod"><div class="im" style="--t:rgba(106,121,216,.2)"><svg viewBox="0 0 120 100" role="img" aria-label="Glow candle"><circle cx="60" cy="30" r="26" fill="url(#gl)"/><rect x="40" y="48" width="40" height="38" rx="7" fill="url(#gd)"/><ellipse cx="60" cy="48" rx="20" ry="4" fill="url(#gw)"/><path d="M60 46v-8" stroke="#000000" stroke-width="2" stroke-linecap="round"/><path d="M60 38c-6-6-3-13 0-19 3 6 6 13 0 19z" fill="url(#gp)"/><path d="M47 58v20" stroke="#fff" stroke-opacity=".3" stroke-width="3" stroke-linecap="round"/></svg></div><b>Glow candle</b><span>$18</span></div>
+                <div class="prod"><div class="im" style="--t:rgba(106,121,216,.2)"><svg viewBox="0 0 120 100" role="img" aria-label="Mist mug"><path d="M50 27c-4-5 4-8 0-14M62 27c-4-5 4-8 0-14M74 27c-4-5 4-8 0-14" stroke="#fff" stroke-opacity=".55" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M36 38h46v30c0 12-10 20-23 20S36 80 36 68z" fill="url(#gp)"/><path d="M82 46h6c9 0 9 18 0 18h-6" fill="none" stroke="url(#gw)" stroke-width="5" stroke-linecap="round"/><ellipse cx="59" cy="38" rx="23" ry="4" fill="url(#gd)"/></svg></div><b>Mist mug</b><span>$14</span></div>
+                <div class="prod"><div class="im" style="--t:rgba(255,255,255,.2)"><svg viewBox="0 0 120 100" role="img" aria-label="Ember tray"><ellipse cx="60" cy="68" rx="44" ry="13" fill="url(#gd)"/><ellipse cx="60" cy="63" rx="44" ry="13" fill="url(#gp)"/><ellipse cx="60" cy="63" rx="36" ry="9" fill="#000000" opacity=".55"/><circle cx="46" cy="57" r="7" fill="url(#gw)"/><rect x="62" y="44" width="10" height="17" rx="3" fill="url(#gd)"/><circle cx="83" cy="61" r="5" fill="url(#gw)"/></svg></div><b>Ember tray</b><span>$27</span></div>
+                <div class="prod"><div class="im" style="--t:rgba(106,121,216,.2)"><svg viewBox="0 0 120 100" role="img" aria-label="Halo mirror"><path d="M36 90V46a24 24 0 0 1 48 0v44z" fill="url(#gp)"/><path d="M43 85V46a17 17 0 0 1 34 0v39z" fill="#000000"/><path d="M43 85V46a17 17 0 0 1 34 0v39z" fill="url(#gl)" opacity=".5"/><path d="M52 76l16-30" stroke="#fff" stroke-opacity=".55" stroke-width="3" stroke-linecap="round"/></svg></div><b>Halo mirror</b><span>$76</span></div>
+              </div>
+            </div>
+            <svg class="cur" viewBox="0 0 24 24"><path d="M3 2l7 19 3-8 8-3z" fill="#fff" stroke="#000000" stroke-width="1.5" stroke-linejoin="round"/></svg>
+            <div class="toast">Added to cart</div>
+          </div>
+        </section>
+
+        <!-- 3. live dashboard (sample data, drawn continuously by script) -->
+        <section class="scene" aria-label="Live analytics dashboard preview">
+          <div class="chrome"><i></i><i></i><i></i><u>Astrix Code / live dashboard</u></div>
+          <div class="view"><div class="dash">
+            <div class="side"><i></i><i></i><i></i><i></i><i></i></div>
+            <div class="main">
+              <div class="top"><b>Overview</b><span class="tag">Live</span><em>Last 12 months</em></div>
+              <div class="kpis">
+                <div class="kpi"><small>Revenue</small><span class="num" id="k1">$48.2k</span><em>+18%</em></div>
+                <div class="kpi"><small>New leads</small><span class="num" id="k2">1,284</span><em>+32%</em></div>
+                <div class="kpi"><small>Conversion</small><span class="num" id="k3">6.4%</span><em>+1.2%</em></div>
+              </div>
+              <div class="charts">
+                <div class="box"><small>Revenue growth</small>
+                  <svg viewBox="0 0 500 150" preserveAspectRatio="none" role="img" aria-label="Live area chart of revenue growth">
+                    <defs><linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6A79D8" stop-opacity=".5"/><stop offset="1" stop-color="#6A79D8" stop-opacity="0"/></linearGradient></defs>
+                    <g stroke="rgba(255,255,255,.2)"><path d="M0 30H500M0 75H500M0 120H500"/></g>
+                    <path id="l2" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="2" stroke-dasharray="5 6"/>
+                    <path id="a1" fill="url(#ag)"/>
+                    <path id="l1" fill="none" stroke="#6A79D8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle id="dot" class="dot" cx="488" cy="20" r="6" fill="#fff" stroke="#6A79D8" stroke-width="3"/>
+                  </svg>
+                </div>
+                <div class="box"><small>Traffic sources</small>
+                  <div class="donut">
+                    <svg viewBox="0 0 120 120" role="img" aria-label="Live donut chart of traffic sources">
+                      <circle cx="60" cy="60" r="42" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="14"/>
+                      <circle id="s1" cx="60" cy="60" r="42" fill="none" stroke="#6A79D8" stroke-width="14"/>
+                      <circle id="s2" cx="60" cy="60" r="42" fill="none" stroke="#6A79D8" stroke-width="14"/>
+                      <circle id="s3" cx="60" cy="60" r="42" fill="none" stroke="#6A79D8" stroke-width="14"/>
+                    </svg>
+                    <div class="lg"><span style="--k:#6A79D8">Search</span><span style="--k:#6A79D8">Social</span><span style="--k:#6A79D8">Direct</span></div>
+                  </div>
+                </div>
+              </div>
+              <div class="box"><small>Leads per month</small><div class="bars" id="bars"></div></div>
+            </div>
+          </div></div>
+        </section>
+
+      </div></div></div></div>
+      <div class="base"></div>
+      <div class="shadow"></div>
+    </div>
+  </div></div>
+</main>
+
+<script>
+(function () {
+  var DWELL = 9000;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var $ = function (id) { return document.getElementById(id); };
+  var screen = $('screen'), show = $('show'), tilt = $('tilt');
+  var scenes = Array.prototype.slice.call(document.querySelectorAll('.scene'));
+  var cur = 0, timer;
+
+  /* scale the 960x600 virtual screen to the real screen */
+  function fit() { screen.style.setProperty('--s', Math.min(screen.clientWidth / 960, screen.clientHeight / 600)); }
+  fit();
+  window.addEventListener('resize', fit, { passive: true });
+
+  /* the show: a plain timer, so nothing can stall it */
+  function go(i) {
+    cur = (i + scenes.length) % scenes.length;
+    scenes.forEach(function (s, k) { s.classList.toggle('on', k === cur); });
+    clearTimeout(timer);
+    if (!reduce) timer = setTimeout(function () { go(cur + 1); }, DWELL);
+  }
+  go(0);
+
+  /* subtle 3D tilt that follows the pointer */
+  if (window.matchMedia('(hover: hover)').matches && !reduce) {
+    show.addEventListener('mousemove', function (e) {
+      var x = e.clientX / window.innerWidth - .5, y = e.clientY / window.innerHeight - .5;
+      tilt.style.setProperty('--ry', (x * 12).toFixed(1) + 'deg');
+      tilt.style.setProperty('--rx', (2 - y * 8).toFixed(1) + 'deg');
+    });
+    show.addEventListener('mouseleave', function () {
+      tilt.style.removeProperty('--ry'); tilt.style.removeProperty('--rx');
+    });
+  }
+
+  /* live dashboard: every shape is a function of time, so it keeps flowing forever */
+  var N = 64, W = 488, H = 150, C = 2 * Math.PI * 42;
+  var l1 = $('l1'), l2 = $('l2'), a1 = $('a1'), dot = $('dot');
+  var segs = [$('s1'), $('s2'), $('s3')], k1 = $('k1'), k2 = $('k2'), k3 = $('k3');
+  var barsEl = $('bars'), bars = [];
+  for (var b = 0; b < 14; b++) { var el = document.createElement('i'); barsEl.appendChild(el); bars.push(el); }
+
+  function f(x, t) {
+    return .3 + .45 * x + .09 * Math.sin(x * 7 + t * .0011) + .05 * Math.sin(x * 15 - t * .0017) + .025 * Math.sin(x * 31 + t * .0023);
+  }
+  function py(v) { return H - 12 - v * (H - 34); }
+  function draw(t) {
+    var d1 = '', d2 = '', lastY = 0;
+    for (var i = 0; i <= N; i++) {
+      var x = i / N, X = (x * W).toFixed(1), y = py(f(x, t)), y2 = py(f(x, t) - .15 + .03 * Math.sin(x * 9 - t * .0013));
+      d1 += (i ? 'L' : 'M') + X + ' ' + y.toFixed(1);
+      d2 += (i ? 'L' : 'M') + X + ' ' + y2.toFixed(1);
+      lastY = y;
+    }
+    l1.setAttribute('d', d1); l2.setAttribute('d', d2);
+    a1.setAttribute('d', d1 + 'V' + H + 'H0Z');
+    dot.setAttribute('cy', lastY.toFixed(1));
+
+    bars.forEach(function (el, i) {
+      el.style.height = (22 + 66 * (.5 + .5 * Math.sin(i * .55 + t * .0013)) * (.55 + .45 * i / 13)).toFixed(1) + '%';
+    });
+
+    var a = .48 + .05 * Math.sin(t * .0007), c = .32 + .04 * Math.sin(t * .0009 + 1), e = 1 - a - c;
+    [a, c, e].forEach(function (share, i) {
+      var before = i === 0 ? 0 : i === 1 ? a : a + c;
+      segs[i].setAttribute('stroke-dasharray', (share * C - 2).toFixed(1) + ' ' + C.toFixed(1));
+      segs[i].setAttribute('stroke-dashoffset', (-before * C).toFixed(1));
+    });
+
+    var leads = 1284 + Math.floor(t / 1600);
+    k2.textContent = leads.toLocaleString('en-US');
+    k1.textContent = '$' + (48.2 + (leads - 1284) * .012).toFixed(1) + 'k';
+    k3.textContent = (6.4 + .15 * Math.sin(t * .0006)).toFixed(1) + '%';
+  }
+
+  var last = 0, t0 = performance.now();
+  function loop(now) {
+    if (cur === 2 && now - last > 33) { last = now; draw(now - t0); }
+    requestAnimationFrame(loop);
+  }
+  draw(0);
+  if (!reduce) requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
+
+
+
